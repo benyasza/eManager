@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Fodraszat.Models.InvoiceListItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Új számla</h3>
+
+<p class="right">
+    @Html.ActionLink("Új számla bevitele", "Create")
+</p>
+<table class="table table-75 col-5 right">
+    <tr>
+        <th>
+            Számlaszám
+        </th>
+        <th>
+            Dátum
+        </th>
+        <th>
+            Vendég
+        </th>
+        <th>
+            Költség
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.InvoiceNumber
+        </td>
+        <td>
+            @item.Date.ToShortDateString()
+        </td>
+        <td>
+            @item.Client
+        </td>
+        <td>
+            @item.Price
+        </td>
+        <td>
+            @Html.ActionLink("Részletezés", "Details", new { invoiceNr = item.InvoiceNumber })
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>

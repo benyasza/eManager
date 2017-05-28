@@ -1,0 +1,117 @@
+﻿@model Fodraszat.Models.InvoiceDetails
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Invoices</h4>
+    <hr />
+
+    <div class="display-price">
+        <label id="totalCost">@Model.TotalCost</label>
+    </div>
+
+    <table class="table table-50 col-3 right">
+        <thead>
+            <tr>
+                <th>Fodrász</th>
+                <th>Munka</th>
+                <th>Költség</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Jobs)
+            {
+                <tr>
+                    <td>
+                        @item.HairDresser
+                    </td>
+                    <td>
+                        @item.Job
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table class="table table-50 col-3 right">
+        <thead>
+            <tr>
+                <th>Anyag</th>
+                <th></th>
+                <th>Költség</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Materials)
+            {
+                <tr>
+                    <td>
+                        @item.Material
+                    </td>
+                    <td></td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+
+    <table class="table table-50 right">
+        <tr>
+            <td>
+                @Html.ActionLink("Vissza a listához", "Index")
+            </td>
+        </tr>
+    </table>
+
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HairDresser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HairDresser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoiceNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Material)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Material)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>*@
+</div>

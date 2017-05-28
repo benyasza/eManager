@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Fodraszat.Models.HairDressers>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    @Html.ActionLink("Új Fodrász felvitel", "Create")
+</p>
+<table class="table table-75 right">
+    <tr>
+        <th>
+          Név
+        </th>
+        <th>
+           Beosztás
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobtitle)
+        </td>
+        <td>
+            @Html.ActionLink("Szerkesztés", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Részletek", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Törlés", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

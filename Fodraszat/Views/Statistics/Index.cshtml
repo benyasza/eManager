@@ -1,0 +1,75 @@
+﻿@using Fodraszat.Models
+
+
+@{
+    ViewBag.Title = "Statisztika";
+    List<SelectListItem> hairdressers = ViewData["HairDressers"] as List<SelectListItem>;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Invoices> stats = ViewData["Stats"] as List<Invoices>;
+}
+
+<h2>Statisztika</h2>
+
+
+<br>
+@using (Html.BeginForm("Index", "Statistics", FormMethod.Post))
+{
+    <div class="form-group filters">
+        <div class="filter">
+            <label>Fodrász</label>
+            @Html.DropDownList("hairdressers", hairdressers, new { onchange = "appendValue(optHairDresser)" })
+            @Html.ValidationMessage("hairdressers", "", new { @class = "text-danger" })
+        </div>
+        <div class="filter">
+            @Html.TextBox("StartDate", "", new { @class = "date-picker" })
+        </div>
+        <div class="filter">
+            @Html.TextBox("EndDate", "", new { @class = "date-picker" })
+        </div>
+        <div class="filter">
+            <input type="submit" value="Lekérdezés" />
+        </div>
+    </div>
+}
+
+
+<table class="table statistics">
+    <tr>
+        <th>
+            Fodrász
+        </th>
+        <th>
+            számlaszám
+        </th>
+        <th>
+            munka
+        </th>
+        <th>
+            dátum
+        </th>
+    </tr>
+
+    @if (stats != null && stats.Count > 0)
+    {
+        foreach (var item in stats)
+        {
+            <tr>
+                <td>
+                    @item.HairDresser
+                </td>
+                <td>
+                    @item.InvoiceNr
+                </td>
+                <td>
+                    @item.Job
+                </td>
+                <td>
+                    @item.Date
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+

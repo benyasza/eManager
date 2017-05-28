@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Fodraszat.Models.Materials>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Új anyag bevitele", "Create")
+</p>
+<table class="table right table-75">
+    <tr>
+        <th>
+            Sorszám
+        </th>
+        <th>
+         Anyagnév
+        </th>
+        <th>
+         Ár
+        </th>
+        <th>
+        Költség
+        </th>
+        <th>
+            Dobozár
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BoxPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Szerkestés", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Részletek", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Törlés", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

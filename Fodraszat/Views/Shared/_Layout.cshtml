@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+ 
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("eManager", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Új Tétel", "Create", "Invoices")</li>
+                    <li>@Html.ActionLink("Fodrászok", "Index", "HairDressers")</li>
+                    <li>@Html.ActionLink("Munkák", "Index", "Jobs")</li>
+                    <li>@Html.ActionLink("Anyagok", "Index", "Materials")</li>
+                    <li>@Html.ActionLink("Számlák", "Index", "Invoices")</li>
+                    <li>@Html.ActionLink("Statisztikák", "Index", "Statistics")</li>
+                    @*<li>@Html.ActionLink("Statisztikák", "Index", "")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+       
+        <footer>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.min.js")
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        $('#btnJob').on('click', function () {
+            event.preventDefault();
+
+            // $nextId = $(this).closest('tbody').find('tr').length;
+            $nextId = Math.floor(Math.random() * 9999) + 1000;
+
+            $row = $(this).closest('tbody').find('tr:nth-last-child(2)');
+            $newRow = $row.clone();
+
+            $hairDressers = $newRow.find('td:first>select');
+            $hairDressers.attr('id', 'hairdressers_' + $nextId);
+            $hairDressers.attr('name', 'hairdressers_' + $nextId);
+
+            $jobs = $newRow.find('td:nth-child(2)>select');
+            $jobs.attr('id', 'jobs_' + $nextId);
+            $jobs.attr('name', 'jobs_' + $nextId);
+
+            $newRow.find('td:nth-last-child(2)').text('');
+
+            //$delete = $newRow.find('td:nth-last-child(1)>a');
+            //$delete.on('click', removeRow);
+
+            $newRow.insertAfter($row);
+        });
+
+        $('#btnMaterial').on('click', function () {
+            event.preventDefault();
+
+            //$nextId = $(this).closest('tbody').find('tr').length;
+            $nextId = Math.floor(Math.random() * 9999) + 1000;
+
+            $row = $(this).closest('tbody').find('tr:nth-last-child(2)');
+            $newRow = $row.clone();
+
+            $materials = $newRow.find('td:first>select');
+            $materials.attr('id', 'materials_' + $nextId);
+            $materials.attr('name', 'materials_' + $nextId);
+
+            $newRow.find('td:nth-last-child(2)').text('');
+
+            //$delete = $newRow.find('td:nth-last-child(1)>a');
+            //$delete.on('click', removeRow);
+
+            $newRow.insertAfter($row);
+        });
+
+        $('div.invoices a.delete').on('click', removeRow);
+
+        var removeRow = function($this) {
+            event.preventDefault();
+
+            $row = $this.closest('tr');
+            $row.remove();
+        };
+
+        var updateHairDressers = function ($select) {
+            event.preventDefault();
+
+            var $selects = $select.closest('tbody').find('tr > td:nth-child(1) > select');
+            var $val = '';
+
+            for (var i = 0; i < $selects.length; i++) {
+                if ($val == '') {
+                    $val = $selects[i].value;
+                } else {
+                    $val += '|' + $selects[i].value;
+                }
+            }
+
+            $('#selectedHairDressers').val($val);
+        };
+
+        var updateJobs = function ($select) {
+            event.preventDefault();
+
+            var $selects = $select.closest('tbody').find('tr > td:nth-child(2) > select');
+            var $val = '';
+
+            for (var i = 0; i < $selects.length; i++) {
+                if ($val == '') {
+                    $val = $selects[i].value;
+                } else {
+                    $val += '|' + $selects[i].value;
+                }
+            }
+
+            $('#selectedJobs').val($val);
+
+            // update prices
+            $priceCell = $select.closest('tr').find('td:nth-last-child(2)');
+
+            $oldPrice = $priceCell.text();
+            $newPrice = $select.children(':selected').data('cost');
+
+            $priceCell.text($newPrice);
+            updateTotalPrice($oldPrice, $newPrice);
+        };
+
+        var updateMaterials = function ($select) {
+            event.preventDefault();
+
+            var $selects = $select.closest('tbody').find('tr > td:nth-child(1) > select');
+            var $val = '';
+
+            for (var i = 0; i < $selects.length; i++) {
+                if ($val == '') {
+                    $val = $selects[i].value;
+                } else {
+                    $val += '|' + $selects[i].value;
+                }
+            }
+
+            $('#selectedMaterials').val($val);
+
+            // update prices
+            $priceCell = $select.closest('tr').find('td:nth-last-child(2)');
+
+            $oldPrice = $priceCell.text();
+            $newPrice = $select.children(':selected').data('cost');
+
+            $priceCell.text($newPrice);
+            updateTotalPrice($oldPrice, $newPrice);
+        };
+
+        var updateTotalPrice = function ($oldValue, $newValue) {
+            event.preventDefault();
+
+            $total = $('label#totalCost').text();
+            $total = $total - $oldValue + $newValue;
+            $('label#totalCost').text($total);
+        };
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+    </script>
+</body>
+</html>

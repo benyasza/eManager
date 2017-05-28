@@ -1,0 +1,125 @@
+﻿@model Fodraszat.Models.Invoices
+
+@using Fodraszat.Models;
+
+@{
+    ViewBag.Title = "Create";
+    List<SelectListItem> hairdressers = ViewData["HairDressers"] as List<SelectListItem>;
+    List<ExtendedSelectListItem> jobs = ViewData["Jobs"] as List<ExtendedSelectListItem>;
+    List<ExtendedSelectListItem> materials = ViewData["Materials"] as List<ExtendedSelectListItem>;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Számla létrehozása</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-inline invoices">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="display-price">
+            <label id="totalCost">0</label>
+        </div>
+
+        <table class="table table-50 col-4 right">
+            <thead>
+                <tr>
+                    <th>Fodrász</th>
+                    <th>Munka</th>
+                    <th>Költség</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DropDownList("hairdressers", hairdressers, new { onchange = "updateHairDressers($(this));" })
+                    </td>
+                    <td>
+                        <select id="jobs" name="jobs" onchange="updateJobs($(this));">
+                            @foreach (var option in jobs)
+                            {
+                                <option value="@option.Value" data-cost="@option.Price">@option.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <a href="#" class="delete" onclick="removeRow($(this));">Törlés</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <input type="hidden" id="selectedHairDressers" name="selectedHairDressers" value="" />
+                        <input type="hidden" id="selectedJobs" name="selectedJobs" value="" />
+                        <button id="btnJob" onsubmit="event.preventDefault();">Új munka</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-50 col-4 right">
+            <thead>
+                <tr>
+                    <th>Anyag</th>
+                    <th></th>
+                    <th>Költség</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select id="materials" name="materials" onchange="updateMaterials($(this));">
+                            @foreach (var option in materials)
+                            {
+                                <option value="@option.Value" data-cost="@option.Price">@option.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="#" class="delete" onclick="removeRow($(this));">Törlés</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <button id="btnMaterial" onsubmit="event.preventDefault();">Új anyag</button>
+                        <input type="hidden" id="selectedMaterials" name="selectedMaterials" value="" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-50 right">
+            <tr>
+                <th>
+                    Vendég neve
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Editor("Client", new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    <input type="submit" value="Számla felvétele" class="btn btn-default" />
+                </td>
+                <td>
+                    @Html.ActionLink("Vissza a listához", "Index")
+                </td>
+            </tr>
+        </table>
+</div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

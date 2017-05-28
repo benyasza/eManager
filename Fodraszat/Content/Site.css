@@ -1,0 +1,78 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-image: url('../Images/HairDress_Index_BG.jpg');
+
+    background-size: cover;
+    background-position: top center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+div.display-price {
+    font-size: 40px;
+    width: 100%;
+    text-align: right;
+}
+
+/* Statistics page */
+table.statistics {
+    width: 600px;
+    float: right;
+}
+
+div.filters {
+    display: flex;
+    float: right;
+    width: 600px;
+}
+
+div.filters div.filter {
+    width: 25%;
+}
+
+/* Table */
+table.right, p.right {
+    clear: both;
+    float: right;
+}
+
+table.table-50 {
+    width: 50%;
+}
+
+table.table-75 {
+    width: 75%;
+}
+
+.table.col-3 thead>tr>th, .table.col-3 tbody>tr>td {
+    width: 33%;
+}
+
+.table.col-4 thead>tr>th, .table.col-4 tbody>tr>td {
+    width: 25%;
+}
+
+.table.col-5 thead>tr>th, .table.col-5 tbody>tr>td {
+    width: 20%;
+}
