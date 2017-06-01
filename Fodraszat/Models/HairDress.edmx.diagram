@@ -5,10 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="dd58ef85403a4387a6f3755b39bf07a5" Name="Diagram1">
-        <EntityTypeShape EntityType="HairDressModel.HairDressers" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HairDressModel.Invoices" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HairDressModel.Jobs" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HairDressModel.Materials" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HairDressModel.HairDressers" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HairDressModel.Invoices" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HairDressModel.Jobs" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HairDressModel.Materials" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HairDressModel.PurchasedProducts" Width="1.5" PointX="2.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

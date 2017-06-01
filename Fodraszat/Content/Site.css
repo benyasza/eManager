@@ -76,3 +76,11 @@ table.table-75 {
 .table.col-5 thead>tr>th, .table.col-5 tbody>tr>td {
     width: 20%;
 }
+
+.table.col-6 thead>tr>th, .table.col-6 tbody>tr>td {
+    width: 16.6%;
+}
+
+.table.right input[type=number] {
+    width: 100px;
+}

@@ -18,12 +18,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="HairDresser" Type="varchar(max)" />
           <Property Name="InvoiceNr" Type="int" Nullable="false" />
-          <Property Name="Job" Type="varchar(max)" />
-          <Property Name="Material" Type="varchar(max)" />
+          <Property Name="Jobs" Type="varchar(max)" />
+          <Property Name="Materials" Type="varchar(max)" />
+          <Property Name="PurchasedProducts" Type="varchar(max)" />
           <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="int" Nullable="false" />
+          <Property Name="PriceWithDiscount" Type="int" Nullable="false" />
           <Property Name="Client" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Jobs">
@@ -32,77 +33,92 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
-          <Property Name="DiscountPrice" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="int" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Overhead" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Materials">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemNumber" Type="int" Nullable="false" />
-          <Property Name="MaterialName" Type="varchar(max)" Nullable="false" />
-          <Property Name="Price" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="int" Nullable="false" />
-          <Property Name="BoxPrice" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="UnitPrice" Type="int" Nullable="false" />
+          <Property Name="QuantityPerBox" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchasedProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="UnitPrice" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="HairDressModelStoreContainer">
           <EntitySet Name="HairDressers" EntityType="Self.HairDressers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchasedProducts" EntityType="Self.PurchasedProducts" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HairDressModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HairDressEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HairDressers" EntityType="HairDressModel.HairDressers" />
+          <EntitySet Name="Invoices" EntityType="HairDressModel.Invoices" />
+          <EntitySet Name="Jobs" EntityType="HairDressModel.Jobs" />
+          <EntitySet Name="Materials" EntityType="HairDressModel.Materials" />
+          <EntitySet Name="PurchasedProducts" EntityType="HairDressModel.PurchasedProducts" />
+        </EntityContainer>
         <EntityType Name="HairDressers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Jobtitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Jobtitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Invoices">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="HairDresser" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InvoiceNr" Type="Int32" Nullable="false" />
-          <Property Name="Job" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Material" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Jobs" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Materials" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PurchasedProducts" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Int32" Nullable="false" />
           <Property Name="Client" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PriceWithDiscount" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DiscountPrice" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Overhead" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Materials">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="ItemNumber" Type="Int32" Nullable="false" />
-          <Property Name="MaterialName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Price" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Int32" Nullable="false" />
-          <Property Name="BoxPrice" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UnitPrice" Type="Int32" Nullable="false" />
+          <Property Name="QuantityPerBox" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="HairDressEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="HairDressers" EntityType="Self.HairDressers" />
-          <EntitySet Name="Invoices" EntityType="Self.Invoices" />
-          <EntitySet Name="Jobs" EntityType="Self.Jobs" />
-          <EntitySet Name="Materials" EntityType="Self.Materials" />
-        </EntityContainer>
+        <EntityType Name="PurchasedProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UnitPrice" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -112,45 +128,53 @@
           <EntitySetMapping Name="HairDressers">
             <EntityTypeMapping TypeName="HairDressModel.HairDressers">
               <MappingFragment StoreEntitySet="HairDressers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Jobtitle" ColumnName="Jobtitle" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="HairDressModel.Invoices">
               <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="PriceWithDiscount" ColumnName="PriceWithDiscount" />
                 <ScalarProperty Name="Client" ColumnName="Client" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="HairDresser" ColumnName="HairDresser" />
-                <ScalarProperty Name="InvoiceNr" ColumnName="InvoiceNr" />
-                <ScalarProperty Name="Job" ColumnName="Job" />
-                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PurchasedProducts" ColumnName="PurchasedProducts" />
+                <ScalarProperty Name="Materials" ColumnName="Materials" />
+                <ScalarProperty Name="Jobs" ColumnName="Jobs" />
+                <ScalarProperty Name="InvoiceNr" ColumnName="InvoiceNr" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="HairDressModel.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Overhead" ColumnName="Overhead" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Materials">
             <EntityTypeMapping TypeName="HairDressModel.Materials">
               <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="QuantityPerBox" ColumnName="QuantityPerBox" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
-                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="BoxPrice" ColumnName="BoxPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchasedProducts">
+            <EntityTypeMapping TypeName="HairDressModel.PurchasedProducts">
+              <MappingFragment StoreEntitySet="PurchasedProducts">
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

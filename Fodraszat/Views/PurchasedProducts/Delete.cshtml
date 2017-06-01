@@ -1,15 +1,15 @@
-﻿@model Fodraszat.Models.Jobs
+﻿@model Fodraszat.Models.PurchasedProducts
 
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Törlés</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Biztosan törölni akarod?</h3>
 <div>
-    <h4>Jobs</h4>
+    <h4>Vásárolt termékek</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -21,19 +21,11 @@
         </dd>
 
         <dt>
-            Rezsi
+            Egységár
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Overhead)
-        </dd>
-
-        <dt>
-            Ár
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayFor(model => model.UnitPrice)
         </dd>
 
     </dl>
@@ -42,8 +34,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Törlés" class="btn btn-default" /> |
+            @Html.ActionLink("Vissza a listához", "Index")
         </div>
     }
 </div>

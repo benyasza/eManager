@@ -1,4 +1,4 @@
-﻿@model Fodraszat.Models.Materials
+﻿@model Fodraszat.Models.PurchasedProducts
 
 @{
     ViewBag.Title = "Details";
@@ -8,10 +8,9 @@
 <h2>Részletek</h2>
 
 <div>
-    <h4>Anyag</h4>
+    <h4>Vásárolt termékek</h4>
     <hr />
     <dl class="dl-horizontal">
-
         <dt>
             Név
         </dt>
@@ -21,24 +20,16 @@
         </dd>
 
         <dt>
-            Egységár (g)
+            Egységár
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.UnitPrice)
         </dd>
 
-        <dt>
-            Mennyiség (g/doboz)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.QuantityPerBox)
-        </dd>
-
     </dl>
 </div>
 <p>
     @Html.ActionLink("Szerkesztés", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Vissza", "Index")
+    @Html.ActionLink("Vissza a listához", "Index")
 </p>

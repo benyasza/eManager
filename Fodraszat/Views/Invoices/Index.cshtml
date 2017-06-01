@@ -22,7 +22,10 @@
             Vendég
         </th>
         <th>
-            Költség
+            Teljes ár
+        </th>
+        <th>
+            Kedvezményes ár
         </th>
         <th></th>
     </tr>
@@ -39,10 +42,13 @@
             @item.Client
         </td>
         <td>
-            @item.Price
+            @item.TotalPrice
         </td>
         <td>
-            @Html.ActionLink("Részletezés", "Details", new { invoiceNr = item.InvoiceNumber })
+            @item.PriceWithDiscount
+        </td>
+        <td>
+            @*@Html.ActionLink("Részletezés", "Details", new { invoiceNr = item.InvoiceNumber })*@
             @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
         </td>
     </tr>

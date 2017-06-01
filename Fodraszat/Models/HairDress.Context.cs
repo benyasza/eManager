@@ -29,5 +29,6 @@ namespace Fodraszat.Models
         public virtual DbSet<Invoices> Invoices { get; set; }
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<Materials> Materials { get; set; }
+        public virtual DbSet<PurchasedProducts> PurchasedProducts { get; set; }
     }
 }

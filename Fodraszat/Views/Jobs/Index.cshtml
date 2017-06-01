@@ -13,13 +13,13 @@
 <table class="table right table-75" >
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Név
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DiscountPrice)
+            Rezsi
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cost)
+            Ár
         </th>
         <th></th>
     </tr>
@@ -30,10 +30,10 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DiscountPrice)
+            @Html.DisplayFor(modelItem => item.Overhead)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Cost)
+            @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
             @Html.ActionLink("Szerkesztés", "Edit", new { id=item.Id }) |

@@ -204,6 +204,7 @@
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
+    <Compile Include="Controllers\PurchasedProductsController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -215,15 +216,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HairDress.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HairDress.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HairDress.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\HairDress.cs" />
     <Compile Include="Models\HairDress.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HairDress.edmx</DependentUpon>
+      <DependentUpon>HairDress.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\HairDressers.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
@@ -232,24 +227,38 @@
     <Compile Include="Models\InvoiceDetails.cs" />
     <Compile Include="Models\InvoiceDetailsRow.cs" />
     <Compile Include="Models\InvoiceListItem.cs" />
-    <Compile Include="Models\InvoiceRequest.cs" />
+    <Compile Include="Models\RequestObjects\InvoiceRequest.cs" />
     <Compile Include="Models\Invoices.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvoiceEntities\JobEntity.cs" />
+    <Compile Include="Models\InvoiceEntities\MaterialEntity.cs" />
+    <Compile Include="Models\InvoiceEntities\PurchasedProductEntity.cs" />
     <Compile Include="Models\Jobs.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequestObjects\DataObjects\JobObject.cs" />
+    <Compile Include="Models\RequestObjects\DataObjects\MaterialObject.cs" />
+    <Compile Include="Models\RequestObjects\DataObjects\PurchasedProductObject.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Materials.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Statistics.cs" />
+    <Compile Include="Models\PurchasedProducts.cs">
+      <DependentUpon>HairDress.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequestObjects\StatisticsRequest.cs" />
+    <Compile Include="Models\ResponseObjects\StatisticsResponse.cs" />
+    <Compile Include="Models\StatisticsDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\invoices.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -298,12 +307,10 @@
     <Content Include="Images\HairDress_Index_BG.jpg" />
     <Content Include="Models\HairDress.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HairDress.edmx</DependentUpon>
       <LastGenOutput>HairDress.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\HairDress.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HairDress.edmx</DependentUpon>
       <LastGenOutput>HairDress.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
@@ -391,6 +398,11 @@
     <Content Include="Views\HairDressers\Edit.cshtml" />
     <Content Include="Views\HairDressers\Index.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\PurchasedProducts\Create.cshtml" />
+    <Content Include="Views\PurchasedProducts\Delete.cshtml" />
+    <Content Include="Views\PurchasedProducts\Details.cshtml" />
+    <Content Include="Views\PurchasedProducts\Edit.cshtml" />
+    <Content Include="Views\PurchasedProducts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -15,10 +15,8 @@ namespace Fodraszat.Models
     public partial class Materials
     {
         public int Id { get; set; }
-        public int ItemNumber { get; set; }
-        public string MaterialName { get; set; }
-        public int Price { get; set; }
-        public int Cost { get; set; }
-        public int BoxPrice { get; set; }
+        public string Name { get; set; }
+        public int UnitPrice { get; set; }
+        public int QuantityPerBox { get; set; }
     }
 }

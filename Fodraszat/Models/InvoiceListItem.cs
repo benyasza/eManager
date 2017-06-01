@@ -8,7 +8,9 @@ namespace Fodraszat.Models
 
         public DateTime Date { get; set; }
 
-        public int Price { get; set; }
+        public int TotalPrice { get; set; }
+
+        public int PriceWithDiscount { get; set; }
 
         public string Client { get; set; }
     }

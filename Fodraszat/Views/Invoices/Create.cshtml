@@ -7,6 +7,7 @@
     List<SelectListItem> hairdressers = ViewData["HairDressers"] as List<SelectListItem>;
     List<ExtendedSelectListItem> jobs = ViewData["Jobs"] as List<ExtendedSelectListItem>;
     List<ExtendedSelectListItem> materials = ViewData["Materials"] as List<ExtendedSelectListItem>;
+    List<ExtendedSelectListItem> products = ViewData["Products"] as List<ExtendedSelectListItem>;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,22 +25,23 @@
             <label id="totalCost">0</label>
         </div>
 
-        <table class="table table-50 col-4 right">
+        <table class="table jobs table-50 col-5 right">
             <thead>
                 <tr>
                     <th>Fodrász</th>
                     <th>Munka</th>
-                    <th>Költség</th>
+                    <th>Kedvezmény</th>
+                    <th>Ár</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="data">
                     <td>
-                        @Html.DropDownList("hairdressers", hairdressers, new { onchange = "updateHairDressers($(this));" })
+                        @Html.DropDownList("hairdressers", hairdressers)
                     </td>
-                    <td>
-                        <select id="jobs" name="jobs" onchange="updateJobs($(this));">
+                    <td class="data">
+                        <select id="jobs" name="jobs" onchange="updateTablePrices($(this));">
                             @foreach (var option in jobs)
                             {
                                 <option value="@option.Value" data-cost="@option.Price">@option.Text</option>
@@ -47,39 +49,43 @@
                         </select>
                     </td>
                     <td>
+                        <input type="number" name="jobDiscount" min="0" onchange="updatePricePerDiscount($(this));" />
                     </td>
+                    <td></td>
                     <td>
                         <a href="#" class="delete" onclick="removeRow($(this));">Törlés</a>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">
-                        <input type="hidden" id="selectedHairDressers" name="selectedHairDressers" value="" />
-                        <input type="hidden" id="selectedJobs" name="selectedJobs" value="" />
+                    <td colspan="5">
                         <button id="btnJob" onsubmit="event.preventDefault();">Új munka</button>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="table table-50 col-4 right">
+        <table class="table materials table-50 col-5 right">
             <thead>
                 <tr>
                     <th>Anyag</th>
+                    <th>Mennyiség (g)</th>
                     <th></th>
-                    <th>Költség</th>
+                    <th>Ár</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="data">
                     <td>
-                        <select id="materials" name="materials" onchange="updateMaterials($(this));">
+                        <select id="materials" name="materials" onchange="updateTablePrices($(this));">
                             @foreach (var option in materials)
                             {
                                 <option value="@option.Value" data-cost="@option.Price">@option.Text</option>
                             }
                         </select>
+                    </td>
+                    <td>
+                        <input type="number" id="qMaterial" min="1" onchange="updatePricePerQuantity($(this));" />
                     </td>
                     <td></td>
                     <td></td>
@@ -88,9 +94,45 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         <button id="btnMaterial" onsubmit="event.preventDefault();">Új anyag</button>
-                        <input type="hidden" id="selectedMaterials" name="selectedMaterials" value="" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table products table-50 col-5 right">
+            <thead>
+                <tr>
+                    <th>Vásárolt termék</th>
+                    <th>Mennyiség (db)</th>
+                    <th></th>
+                    <th>Ár</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="data">
+                    <td>
+                        <select id="products" name="products" onchange="updateTablePrices($(this));">
+                            @foreach (var option in products)
+                            {
+                                <option value="@option.Value" data-cost="@option.Price">@option.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" id="qPeoduct" min="1" onchange="updatePricePerQuantity($(this));" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="#" class="delete" onclick="removeRow($(this));">Törlés</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <button id="btnProduct" onsubmit="event.preventDefault();">Új termék</button>
                     </td>
                 </tr>
             </tbody>
@@ -109,7 +151,7 @@
                     @Html.Editor("Client", new { htmlAttributes = new { @class = "form-control" } })
                 </td>
                 <td>
-                    <input type="submit" value="Számla felvétele" class="btn btn-default" />
+                    <input type="submit" id="btnSubmit" value="Számla felvétele" class="btn btn-default" />
                 </td>
                 <td>
                     @Html.ActionLink("Vissza a listához", "Index")

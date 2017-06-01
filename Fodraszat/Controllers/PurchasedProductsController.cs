@@ -10,107 +10,107 @@ using Fodraszat.Models;
 
 namespace Fodraszat.Controllers
 {
-    public class MaterialsController : Controller
+    public class PurchasedProductsController : Controller
     {
         private HairDressEntities db = new HairDressEntities();
 
-        // GET: Materials
+        // GET: PurchasedProducts
         public ActionResult Index()
         {
-            return View(db.Materials.ToList());
+            return View(db.PurchasedProducts.ToList());
         }
 
-        // GET: Materials/Details/5
+        // GET: PurchasedProducts/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Materials materials = db.Materials.Find(id);
-            if (materials == null)
+            PurchasedProducts purchasedProducts = db.PurchasedProducts.Find(id);
+            if (purchasedProducts == null)
             {
                 return HttpNotFound();
             }
-            return View(materials);
+            return View(purchasedProducts);
         }
 
-        // GET: Materials/Create
+        // GET: PurchasedProducts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Materials/Create
+        // POST: PurchasedProducts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UnitPrice,QuantityPerBox")] Materials materials)
+        public ActionResult Create([Bind(Include = "Id,Name,UnitPrice")] PurchasedProducts purchasedProducts)
         {
             if (ModelState.IsValid)
             {
-                db.Materials.Add(materials);
+                db.PurchasedProducts.Add(purchasedProducts);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(materials);
+            return View(purchasedProducts);
         }
 
-        // GET: Materials/Edit/5
+        // GET: PurchasedProducts/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Materials materials = db.Materials.Find(id);
-            if (materials == null)
+            PurchasedProducts purchasedProducts = db.PurchasedProducts.Find(id);
+            if (purchasedProducts == null)
             {
                 return HttpNotFound();
             }
-            return View(materials);
+            return View(purchasedProducts);
         }
 
-        // POST: Materials/Edit/5
+        // POST: PurchasedProducts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,UnitPrice,QuantityPerBox")] Materials materials)
+        public ActionResult Edit([Bind(Include = "Id,Name,UnitPrice")] PurchasedProducts purchasedProducts)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(materials).State = EntityState.Modified;
+                db.Entry(purchasedProducts).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(materials);
+            return View(purchasedProducts);
         }
 
-        // GET: Materials/Delete/5
+        // GET: PurchasedProducts/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Materials materials = db.Materials.Find(id);
-            if (materials == null)
+            PurchasedProducts purchasedProducts = db.PurchasedProducts.Find(id);
+            if (purchasedProducts == null)
             {
                 return HttpNotFound();
             }
-            return View(materials);
+            return View(purchasedProducts);
         }
 
-        // POST: Materials/Delete/5
+        // POST: PurchasedProducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Materials materials = db.Materials.Find(id);
-            db.Materials.Remove(materials);
+            PurchasedProducts purchasedProducts = db.PurchasedProducts.Find(id);
+            db.PurchasedProducts.Remove(purchasedProducts);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

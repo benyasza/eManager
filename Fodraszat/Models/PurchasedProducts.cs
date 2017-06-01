@@ -12,16 +12,10 @@ namespace Fodraszat.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Invoices
+    public partial class PurchasedProducts
     {
         public int Id { get; set; }
-        public int InvoiceNr { get; set; }
-        public string Jobs { get; set; }
-        public string Materials { get; set; }
-        public string PurchasedProducts { get; set; }
-        public System.DateTime Date { get; set; }
-        public int TotalPrice { get; set; }
-        public string Client { get; set; }
-        public int PriceWithDiscount { get; set; }
+        public string Name { get; set; }
+        public int UnitPrice { get; set; }
     }
 }

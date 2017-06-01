@@ -5,51 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Törlés</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Biztosan törölni akarod?</h3>
 <div>
-    <h4>Materials</h4>
+    <h4>Anyag</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ItemNumber)
+            Név
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ItemNumber)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MaterialName)
+            Egységár (g)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MaterialName)
+            @Html.DisplayFor(model => model.UnitPrice)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Price)
+            Mennyiség (g/doboz)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BoxPrice)
+            @Html.DisplayFor(model => model.QuantityPerBox)
         </dd>
 
     </dl>
@@ -58,8 +42,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Törlés" class="btn btn-default" /> |
+            @Html.ActionLink("Vissza", "Index")
         </div>
     }
 </div>

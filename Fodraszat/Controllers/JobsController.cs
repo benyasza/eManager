@@ -46,7 +46,7 @@ namespace Fodraszat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DiscountPrice,Cost")] Jobs jobs)
+        public ActionResult Create([Bind(Include = "Id,Name,Overhead,Price")] Jobs jobs)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace Fodraszat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DiscountPrice,Cost")] Jobs jobs)
+        public ActionResult Edit([Bind(Include = "Id,Name,Overhead,Price")] Jobs jobs)
         {
             if (ModelState.IsValid)
             {

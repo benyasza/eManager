@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Fodraszat.Models.InvoiceEntities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Fodraszat.Models
 {
@@ -11,8 +9,10 @@ namespace Fodraszat.Models
 
         public int TotalCost { get; set; }
 
-        public IEnumerable<InvoiceDetailsRow> Jobs { get; set; }
+        public IEnumerable<JobEntity> Jobs { get; set; }
 
-        public IEnumerable<InvoiceDetailsRow> Materials { get; set; }
+        public IEnumerable<MaterialEntity> Materials { get; set; }
+
+        public IEnumerable<PurchasedProductEntity> Products { get; set; }
     }
 }

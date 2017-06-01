@@ -29,9 +29,10 @@
                     <li>@Html.ActionLink("Fodrászok", "Index", "HairDressers")</li>
                     <li>@Html.ActionLink("Munkák", "Index", "Jobs")</li>
                     <li>@Html.ActionLink("Anyagok", "Index", "Materials")</li>
+                    <li>@Html.ActionLink("Vásárolt termékek", "Index", "PurchasedProducts")</li>
                     <li>@Html.ActionLink("Számlák", "Index", "Invoices")</li>
                     <li>@Html.ActionLink("Statisztikák", "Index", "Statistics")</li>
-                    @*<li>@Html.ActionLink("Statisztikák", "Index", "")</li>*@
+                    <li>@Html.ActionLink("Leltár", "", "")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -49,12 +50,13 @@
     @Scripts.Render("~/Scripts/jquery-ui-1.12.1.min.js")
     @RenderSection("scripts", required: false)
 
-    <script>
+    @Scripts.Render("~/Content/invoices.js");
+
+    @*<script>
 
         $('#btnJob').on('click', function () {
             event.preventDefault();
 
-            // $nextId = $(this).closest('tbody').find('tr').length;
             $nextId = Math.floor(Math.random() * 9999) + 1000;
 
             $row = $(this).closest('tbody').find('tr:nth-last-child(2)');
@@ -68,10 +70,8 @@
             $jobs.attr('id', 'jobs_' + $nextId);
             $jobs.attr('name', 'jobs_' + $nextId);
 
+            $newRow.find('td:nth-last-child(3) > input').val(0);
             $newRow.find('td:nth-last-child(2)').text('');
-
-            //$delete = $newRow.find('td:nth-last-child(1)>a');
-            //$delete.on('click', removeRow);
 
             $newRow.insertAfter($row);
         });
@@ -79,7 +79,6 @@
         $('#btnMaterial').on('click', function () {
             event.preventDefault();
 
-            //$nextId = $(this).closest('tbody').find('tr').length;
             $nextId = Math.floor(Math.random() * 9999) + 1000;
 
             $row = $(this).closest('tbody').find('tr:nth-last-child(2)');
@@ -90,9 +89,25 @@
             $materials.attr('name', 'materials_' + $nextId);
 
             $newRow.find('td:nth-last-child(2)').text('');
+            $newRow.find('td:nth-child(2) > input').val(0);
 
-            //$delete = $newRow.find('td:nth-last-child(1)>a');
-            //$delete.on('click', removeRow);
+            $newRow.insertAfter($row);
+        });
+
+        $('#btnProduct').on('click', function () {
+            event.preventDefault();
+
+            $nextId = Math.floor(Math.random() * 9999) + 1000;
+
+            $row = $(this).closest('tbody').find('tr:nth-last-child(2)');
+            $newRow = $row.clone();
+
+            $materials = $newRow.find('td:first>select');
+            $materials.attr('id', 'products_' + $nextId);
+            $materials.attr('name', 'products_' + $nextId);
+
+            $newRow.find('td:nth-last-child(2)').text('');
+            $newRow.find('td:nth-child(2) > input').val(0);
 
             $newRow.insertAfter($row);
         });
@@ -103,44 +118,36 @@
             event.preventDefault();
 
             $row = $this.closest('tr');
-            $row.remove();
+            $priceCell = $row.find('td:nth-last-child(2)');
+
+            $rowCount = $this.closest('table > tbody').find('tr').length;
+
+            if ($rowCount > 2) {
+                updateTotalPrice($priceCell.text(), 0);
+                $row.remove();
+            }
         };
 
-        var updateHairDressers = function ($select) {
+        var updateTablePrices = function ($select) {
             event.preventDefault();
-
-            var $selects = $select.closest('tbody').find('tr > td:nth-child(1) > select');
-            var $val = '';
-
-            for (var i = 0; i < $selects.length; i++) {
-                if ($val == '') {
-                    $val = $selects[i].value;
-                } else {
-                    $val += '|' + $selects[i].value;
-                }
-            }
-
-            $('#selectedHairDressers').val($val);
-        };
-
-        var updateJobs = function ($select) {
-            event.preventDefault();
-
-            var $selects = $select.closest('tbody').find('tr > td:nth-child(2) > select');
-            var $val = '';
-
-            for (var i = 0; i < $selects.length; i++) {
-                if ($val == '') {
-                    $val = $selects[i].value;
-                } else {
-                    $val += '|' + $selects[i].value;
-                }
-            }
-
-            $('#selectedJobs').val($val);
 
             // update prices
-            $priceCell = $select.closest('tr').find('td:nth-last-child(2)');
+            $row = $select.closest('tr');
+            $priceCell = $row.find('td:nth-last-child(2)');
+
+            $table = $select.closest('table');
+
+            if ($table.hasClass('jobs')) {
+                $row.find('td:nth-last-child(3) > input').val(0);
+            }
+
+            if ($table.hasClass('materials') || $table.hasClass('products')) {
+                if ($select[0].value != '') {
+                    $row.find('td:nth-child(2) > input').val(1);
+                } else {
+                    $row.find('td:nth-child(2) > input').val(0);
+                }
+            }
 
             $oldPrice = $priceCell.text();
             $newPrice = $select.children(':selected').data('cost');
@@ -149,30 +156,42 @@
             updateTotalPrice($oldPrice, $newPrice);
         };
 
-        var updateMaterials = function ($select) {
-            event.preventDefault();
+        var updatePricePerDiscount = function ($this) {
+            event.preventDefault;
 
-            var $selects = $select.closest('tbody').find('tr > td:nth-child(1) > select');
-            var $val = '';
-
-            for (var i = 0; i < $selects.length; i++) {
-                if ($val == '') {
-                    $val = $selects[i].value;
-                } else {
-                    $val += '|' + $selects[i].value;
-                }
-            }
-
-            $('#selectedMaterials').val($val);
-
-            // update prices
-            $priceCell = $select.closest('tr').find('td:nth-last-child(2)');
-
+            $priceCell = $this.closest('tr').find('td:nth-last-child(2)');
             $oldPrice = $priceCell.text();
-            $newPrice = $select.children(':selected').data('cost');
 
-            $priceCell.text($newPrice);
-            updateTotalPrice($oldPrice, $newPrice);
+            $select = $this.closest('tr').find('td:nth-child(2) > select');
+            $jobPrice = $select.children(':selected').data('cost');
+
+            $discount = Math.min(Math.max($this[0].value, 0), 100);
+
+            if ($oldPrice != '' && $oldPrice != undefined) {
+                $newPrice = $jobPrice * (100 - $discount) / 100;
+
+                $priceCell.text($newPrice);
+                updateTotalPrice($oldPrice, $newPrice);
+            }
+        };
+
+        var updatePricePerQuantity = function ($this) {
+            event.preventDefault;
+
+            $priceCell = $this.closest('tr').find('td:nth-last-child(2)');
+            $oldPrice = $priceCell.text();
+
+            $select = $this.closest('tr').find('td:nth-child(1) > select');
+            $unitPrice = $select.children(':selected').data('cost');
+
+            $quantity = Math.max($this[0].value, 0);
+
+            if ($oldPrice != '' && $oldPrice != undefined) {
+                $newPrice = $unitPrice * $quantity;
+
+                $priceCell.text($newPrice);
+                updateTotalPrice($oldPrice, $newPrice);
+            }
         };
 
         var updateTotalPrice = function ($oldValue, $newValue) {
@@ -182,7 +201,78 @@
             $total = $total - $oldValue + $newValue;
             $('label#totalCost').text($total);
         };
-    </script>
+
+        $('div.invoices #btnSubmit').on('click', function () {
+            event.preventDefault();
+
+            $table = $(this).find('table.jobs');
+
+            // create jobs collection
+            var $jobs = [];
+
+            $('table.jobs tr.data').each(function (index, tr) {
+
+                var $data = new Object();
+                $data.hairDresserId = $(tr).find('td:nth-child(1) > select')[0].value;
+                $data.jobId = $(tr).find('td:nth-child(2) > select')[0].value;
+                $data.discount = $(tr).find('td:nth-child(3) > input')[0].value;
+
+                if ($data.hairDresser != '' && $data.job != '' && $data.discount != '') {
+                    $jobs.push($data);
+                }
+            });
+
+            // create materials collection
+            var $materials = [];
+
+            $('table.materials tr.data').each(function (index, tr) {
+
+                var $data = new Object();
+                $data.id = $(tr).find('td:nth-child(1) > select')[0].value;
+                $data.quantity = $(tr).find('td:nth-child(2) > input')[0].value;
+
+                if ($data.material != '' && $data.quantity != '') {
+                    $materials.push($data);
+                }
+            });
+
+            // create products collection
+            var $products = [];
+
+            $('table.products tr.data').each(function (index, tr) {
+
+                var $data = new Object();
+                $data.id = $(tr).find('td:nth-child(1) > select')[0].value;
+                $data.quantity = $(tr).find('td:nth-child(2) > input')[0].value;
+
+                if ($data.product != '' && $data.quantity != '') {
+                    $products.push($data);
+                }
+            });
+
+            // create data object
+            $formData = new Object();
+            $formData.jobs = $jobs;
+            $formData.materials = $materials;
+            $formData.products = $products;
+            $formData.client = $(document).find('input#Client')[0].value;
+
+            // post data object
+            if ($formData != null && $formData != undefined) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Invoices/Create',
+                    data: JSON.stringify($formData),
+                    success: function (data) { console.log('invoice has been created!'); window.location.href = data; },
+                    contentType: 'application/json',
+                    dataType: 'json'
+                });
+
+            }
+        });
+
+    </script>*@
 
     <script type="text/javascript">
     $(function () {

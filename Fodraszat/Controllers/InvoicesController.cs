@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Fodraszat.Models;
+using Newtonsoft.Json;
+using Fodraszat.Models.InvoiceEntities;
+using Fodraszat.Services;
+using Fodraszat.Models.RequestObjects;
+using Fodraszat.Models.RequestObjects.DataObjects;
+using System;
 
 namespace Fodraszat.Controllers
 {
@@ -20,18 +25,14 @@ namespace Fodraszat.Controllers
 
             if (db.Invoices?.Any() ?? false)
             {
-                var grouppedList = db.Invoices.GroupBy(t => t.InvoiceNr);
-
-                foreach (var invoice in grouppedList)
+                list = db.Invoices.Select(t => new InvoiceListItem
                 {
-                    list.Add(new InvoiceListItem
-                    {
-                        InvoiceNumber = invoice.Key,
-                        Date = invoice.First().Date,
-                        Client = invoice.First().Client,
-                        Price = invoice.Sum(t => t.Price)
-                    });
-                }
+                    InvoiceNumber = t.InvoiceNr,
+                    Date = t.Date,
+                    Client = t.Client,
+                    TotalPrice = t.TotalPrice,
+                    PriceWithDiscount = t.PriceWithDiscount
+                }).ToList();
             }
 
             return View(list);
@@ -45,96 +46,59 @@ namespace Fodraszat.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            IEnumerable<Invoices> invoices = db.Invoices.Where(t => t.InvoiceNr == invoiceNr.Value);
-            if (!invoices?.Any() ?? true)
+            var invoice = db.Invoices.First(t => t.InvoiceNr == invoiceNr.Value);
+            if (invoice == null)
             {
                 return HttpNotFound();
             }
 
-            var jobs = invoices
-                .Where(t => !(string.IsNullOrEmpty(t.Job)))
-                ?.Select(s => new InvoiceDetailsRow
-                {
-                    HairDresser = GetHairDresserName(s.HairDresser),
-                    Job = GetJobName(s.Job),
-                    Price = s.Price
-                });
+            //var jobs = JsonConvert.DeserializeObject<IEnumerable<JobObject>>(invoice.Jobs)
+            //    ?.Select(t => new JobEntity { Name = GetJobName(t.Id.ToString()), Price = t.Price, Discount = t.Discount });
+            //var materials = JsonConvert.DeserializeObject<IEnumerable<MaterialObject>>(invoice.Materials)
+            //    ?.Select(t => new MaterialEntity { Name = GetMaterialName(t.Id.ToString()), Price = t.Price, Quantity = t.Quantity });
+            //var products = JsonConvert.DeserializeObject<IEnumerable<PurchasedProductObject>>(invoice.PurchasedProducts)
+            //    ?.Select(t => new PurchasedProductEntity { Name = GetProductName(t.Id.ToString()), Price = t.Price, Quantity = t.Quantity });
 
-            var materials = invoices
-                .Where(t => !(string.IsNullOrEmpty(t.Material)))
-                ?.Select(s => new InvoiceDetailsRow
-                {
-                    Material = GetMaterialName(s.Material),
-                    Price = s.Price
-                });
+            //InvoiceDetails details = new InvoiceDetails
+            //{
+            //    InvoiceNumber = invoiceNr.Value,
+            //    TotalCost = invoice.TotalPrice,
+            //    Jobs = jobs,
+            //    Materials = materials,
+            //    Products = products
+            //};
 
-            InvoiceDetails details = new InvoiceDetails
-            {
-                InvoiceNumber = invoiceNr.Value,
-                TotalCost = invoices.Sum(t => t.Price),
-                Jobs = jobs,
-                Materials = materials
-            };
+            InvoiceDetails details = new InvoiceDetails();
 
             return View(details);
-        }
-
-        private string GetHairDresserName(string id)
-        {
-            int recordId;
-            int.TryParse(id, out recordId);
-
-            if (recordId < 0)
-            {
-                return string.Empty;
-            }
-
-            return db.HairDressers.Find(recordId)?.Name ?? string.Empty;
-        }
-
-        private string GetJobName(string id)
-        {
-            int recordId;
-            int.TryParse(id, out recordId);
-
-            if (recordId < 0)
-            {
-                return string.Empty;
-            }
-
-            return db.Jobs.Find(recordId)?.Name ?? string.Empty;
-        }
-
-        private string GetMaterialName(string id)
-        {
-            int recordId;
-            int.TryParse(id, out recordId);
-
-            if (recordId < 0)
-            {
-                return string.Empty;
-            }
-
-            return db.Materials.Find(recordId)?.MaterialName ?? string.Empty;
         }
 
         // GET: Invoices/Create
         public ActionResult Create()
         {
-            var materials = db.Materials?.Select(t => new ExtendedSelectListItem { Value = t.Id.ToString(), Text = t.MaterialName, Price = t.Price })
+            var materials = db.Materials
+                ?.Select(t => new ExtendedSelectListItem { Value = t.Id.ToString(), Text = t.Name, Price = t.UnitPrice })
                 .ToList() ?? new List<ExtendedSelectListItem>();
-            materials.Insert(0, new ExtendedSelectListItem { Text ="Válassz", Value ="", Price = 0 });
+            materials.Insert(0, new ExtendedSelectListItem { Text = "Válassz", Value = "", Price = 0 });
             ViewData.Add("Materials", materials);
 
-            var jobs = db.Jobs?.Select(t => new ExtendedSelectListItem { Value = t.Id.ToString(), Text = t.Name, Price = t.Cost })
+            var jobs = db.Jobs
+                ?.Select(t => new ExtendedSelectListItem { Value = t.Id.ToString(), Text = t.Name, Price = t.Price })
                 .ToList() ?? new List<ExtendedSelectListItem>();
             jobs.Insert(0, new ExtendedSelectListItem { Text = "Válassz", Value = "", Price = 0 });
             ViewData.Add("Jobs", jobs);
+
+            var products = db.PurchasedProducts
+                ?.Select(t => new ExtendedSelectListItem { Value = t.Id.ToString(), Text = t.Name, Price = t.UnitPrice })
+                .ToList() ?? new List<ExtendedSelectListItem>();
+            products.Insert(0, new ExtendedSelectListItem { Text = "Válassz", Value = "", Price = 0 });
+            ViewData.Add("Products", products);
 
 
             var hairdressers = db.HairDressers?.Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name }).ToList() ?? new List<SelectListItem>();
             hairdressers.Insert(0, new SelectListItem { Text = "Válassz", Value = "" });
             ViewData.Add("HairDressers", hairdressers);
+
             return View();
 
         }
@@ -143,82 +107,66 @@ namespace Fodraszat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(InvoiceRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var jobs = request.SelectedJobs.Split('|');
-                var hairDressers = request.SelectedHairDressers.Split('|');
-
-                int count = Math.Min(jobs.Count(), hairDressers.Count());
-
-                var rand = new Random(DateTime.Now.Millisecond);
-                int invoiceNr = rand.Next(10000000, 99999999);
-
-                int price = 0;
-                int id;
-
-                // store records with matching job-hairdresser pairs, without material
-                for (int i = 0; i < count; i++)
-                {
-                    int.TryParse(jobs[i], out id);
-
-                    if (id < 0)
-                    {
-                        break;
-                    }
-
-                    price = db.Jobs.Where(t => t.Id == id)?.FirstOrDefault()?.Cost ?? 0;
-
-                    var invoice = new Invoices
-                    {
-                        InvoiceNr = invoiceNr,
-                        HairDresser = hairDressers[i],
-                        Job = jobs[i],
-                        Material = string.Empty,
-                        Date = DateTime.Now,
-                        Price = price,
-                        Client = request.Client ?? string.Empty
-                    };
-
-                    db.Invoices.Add(invoice);
-                }
-
-                var materials = request.SelectedMaterials?.Split('|');
-
-                // store seleted materials
-                if (materials?.Any() ?? false)
-                {
-                    foreach (var material in materials)
-                    {
-                        int.TryParse(material, out id);
-
-                        if (id < 0)
-                        {
-                            break;
-                        }
-
-                        price = db.Materials.Where(t => t.Id == id)?.FirstOrDefault()?.Cost ?? 0;
-
-                        db.Invoices.Add(new Invoices
-                        {
-                            InvoiceNr = invoiceNr,
-                            HairDresser = string.Empty,
-                            Job = string.Empty,
-                            Material = material,
-                            Date = DateTime.Now,
-                            Price = price,
-                            Client = request.Client ?? string.Empty
-                        });
-                    }
-                }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
             }
 
-            return View(request);
+            var rand = new Random(DateTime.Now.Millisecond);
+            int invoiceNr = rand.Next(10000000, 99999999);
+
+            Invoices invoice = new Invoices
+            {
+                InvoiceNr = invoiceNr,
+                Client = request.Client,
+                Date = DateTime.Now
+            };
+
+            List<JobObject> jobs = new List<JobObject>(); 
+            foreach (var item in request.Jobs)
+            {
+                
+                var job = InvoiceService.UpdateJob(item);
+                jobs.Add(job);
+            }
+
+            List<MaterialObject> materials = new List<MaterialObject>();
+            foreach (var item in request.Materials)
+            {
+
+                var material = InvoiceService.UpdateMaterial(item);
+                materials.Add(material);
+            }
+
+            List<PurchasedProductObject> purchases = new List<PurchasedProductObject>();
+            foreach (var item in request.Products)
+            {
+
+                var purchase = InvoiceService.UpdatePurchase(item);
+                purchases.Add(purchase);
+            }
+
+            invoice.Jobs = JsonConvert.SerializeObject(jobs);
+            invoice.Materials = JsonConvert.SerializeObject(materials);
+            invoice.PurchasedProducts = JsonConvert.SerializeObject(purchases);
+
+            int totalprice = 0;
+            totalprice = jobs.Sum(x => x.Price);
+            totalprice += materials.Sum(x => x.Price);
+            totalprice += purchases.Sum(x => x.Price);
+            invoice.TotalPrice = totalprice;
+
+            int totalPriceWithDiscount =  InvoiceService.GetJobTotalPriceWithDiscount(jobs);
+            totalPriceWithDiscount += materials.Sum(x => x.Price);
+            totalPriceWithDiscount += purchases.Sum(x => x.Price);
+            invoice.PriceWithDiscount = totalPriceWithDiscount;
+
+            db.Invoices.Add(invoice);
+            db.SaveChanges();
+
+            return Json(Url.Action("Index", "Invoices"));
         }
 
         // GET: Invoices/Edit/5
@@ -272,9 +220,9 @@ namespace Fodraszat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Invoices invoices = db.Invoices.Find(id);
-            db.Invoices.Remove(invoices);
-            db.SaveChanges();
+            //Invoices invoices = db.Invoices.Find(id);
+            //db.Invoices.Remove(invoices);
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 

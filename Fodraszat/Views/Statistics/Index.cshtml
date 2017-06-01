@@ -1,11 +1,11 @@
-﻿@using Fodraszat.Models
+﻿@using Fodraszat.Models.ResponseObjects
 
 
 @{
     ViewBag.Title = "Statisztika";
     List<SelectListItem> hairdressers = ViewData["HairDressers"] as List<SelectListItem>;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<Invoices> stats = ViewData["Stats"] as List<Invoices>;
+    StatisticsResponse stats = ViewData["Stats"] as StatisticsResponse;
 }
 
 <h2>Statisztika</h2>
@@ -16,8 +16,7 @@
 {
     <div class="form-group filters">
         <div class="filter">
-            <label>Fodrász</label>
-            @Html.DropDownList("hairdressers", hairdressers, new { onchange = "appendValue(optHairDresser)" })
+            @Html.DropDownList("hairdressers", hairdressers)
             @Html.ValidationMessage("hairdressers", "", new { @class = "text-danger" })
         </div>
         <div class="filter">
@@ -33,43 +32,96 @@
 }
 
 
-<table class="table statistics">
+<table class="table statistics right table-75">
     <tr>
         <th>
             Fodrász
         </th>
         <th>
-            számlaszám
+            Dátum
         </th>
         <th>
-            munka
+            Munka
         </th>
         <th>
-            dátum
+            Ár
+        </th>
+        <th>
+            Kedvezmény
+        </th>
+        <th>
+            Rezsi
+        </th>
+        <th>
+            Fizetés
         </th>
     </tr>
 
-    @if (stats != null && stats.Count > 0)
+    @if (stats != null && stats.StatisticsDetails != null && stats.StatisticsDetails.Count > 0)
     {
-        foreach (var item in stats)
+        foreach (var item in stats.StatisticsDetails)
         {
             <tr>
                 <td>
                     @item.HairDresser
                 </td>
                 <td>
-                    @item.InvoiceNr
+                    @item.Date.ToShortDateString()
                 </td>
                 <td>
                     @item.Job
                 </td>
                 <td>
-                    @item.Date
+                    @item.Price
+                </td>
+                <td>
+                    @item.Discount
+                </td>
+                <td>
+                    @item.Overhead
+                </td>
+                <td>
+                    @item.Salary
                 </td>
             </tr>
         }
     }
 
 </table>
+
+@if (stats != null)
+{
+    <table class="table right table-75">
+        <tr>
+            <th colspan="3"></th>
+            <th>
+                Teljes Ár
+            </th>
+            <th>
+                Összes Rezsi
+            </th>
+            <th></th>
+            <th>
+                Összes Fizetés
+            </th>
+        </tr>
+
+        <tr>
+            <td colspan="3"></td>
+            <td>
+                @stats.TotalPrice
+            </td>
+            <td>
+                @stats.TotalOverhead
+            </td>
+            <th></th>
+            <td>
+                @stats.TotalSalary
+            </td>
+        </tr>
+
+    </table>
+}
+
 
 
