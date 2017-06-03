@@ -11,10 +11,10 @@ namespace Fodraszat.Models
 
         public int PriceWithDiscount { get; set; }
 
-        public IEnumerable<JobEntity> Jobs { get; set; }
+        public IEnumerable<InvoiceJob> Jobs { get; set; }
 
-        public IEnumerable<MaterialEntity> Materials { get; set; }
+        public IEnumerable<InvoiceMaterial> Materials { get; set; }
 
-        public IEnumerable<PurchasedProductEntity> Products { get; set; }
+        public IEnumerable<InvoiceProduct> Products { get; set; }
     }
 }

@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HairDressersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -224,15 +225,18 @@
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InventoryEntities\InventoryMaterial.cs" />
+    <Compile Include="Models\InventoryEntities\InventoryProduct.cs" />
     <Compile Include="Models\InvoiceDetails.cs" />
     <Compile Include="Models\InvoiceListItem.cs" />
+    <Compile Include="Models\RequestObjects\InventoryRequest.cs" />
     <Compile Include="Models\RequestObjects\InvoiceRequest.cs" />
     <Compile Include="Models\Invoices.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\InvoiceEntities\JobEntity.cs" />
-    <Compile Include="Models\InvoiceEntities\MaterialEntity.cs" />
-    <Compile Include="Models\InvoiceEntities\PurchasedProductEntity.cs" />
+    <Compile Include="Models\InvoiceEntities\InvoiceJob.cs" />
+    <Compile Include="Models\InvoiceEntities\InvoiceMaterial.cs" />
+    <Compile Include="Models\InvoiceEntities\InvoiceProduct.cs" />
     <Compile Include="Models\Jobs.cs">
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
@@ -247,6 +251,7 @@
       <DependentUpon>HairDress.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequestObjects\StatisticsRequest.cs" />
+    <Compile Include="Models\ResponseObjects\InventoryResponse.cs" />
     <Compile Include="Models\ResponseObjects\StatisticsResponse.cs" />
     <Compile Include="Models\StatisticsDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -402,6 +407,7 @@
     <Content Include="Views\PurchasedProducts\Details.cshtml" />
     <Content Include="Views\PurchasedProducts\Edit.cshtml" />
     <Content Include="Views\PurchasedProducts\Index.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

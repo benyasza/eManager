@@ -3,9 +3,9 @@ using Fodraszat.Services;
 
 namespace Fodraszat.Models.InvoiceEntities
 {
-    public class PurchasedProductEntity
+    public class InvoiceProduct
     {
-        public PurchasedProductEntity(PurchasedProductObject productObject)
+        public InvoiceProduct(PurchasedProductObject productObject)
         {
             if (productObject != null)
             {

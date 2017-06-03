@@ -53,11 +53,11 @@ namespace Fodraszat.Controllers
             }
 
             var jobs = JsonConvert.DeserializeObject<IEnumerable<JobObject>>(invoice.Jobs)
-                ?.Select(t => new JobEntity(t));
+                ?.Select(t => new InvoiceJob(t));
             var materials = JsonConvert.DeserializeObject<IEnumerable<MaterialObject>>(invoice.Materials)
-                ?.Select(t => new MaterialEntity(t));
+                ?.Select(t => new InvoiceMaterial(t));
             var products = JsonConvert.DeserializeObject<IEnumerable<PurchasedProductObject>>(invoice.PurchasedProducts)
-                ?.Select(t => new PurchasedProductEntity(t) );
+                ?.Select(t => new InvoiceProduct(t) );
 
             InvoiceDetails details = new InvoiceDetails
             {
@@ -132,19 +132,26 @@ namespace Fodraszat.Controllers
             }
 
             List<MaterialObject> materials = new List<MaterialObject>();
-            foreach (var item in request.Materials)
-            {
 
-                var material = InvoiceService.UpdateMaterial(item);
-                materials.Add(material);
+            if (request.Materials?.Any() ?? false)
+            {
+                foreach (var item in request.Materials)
+                {
+                    var material = InvoiceService.UpdateMaterial(item);
+                    materials.Add(material);
+                }
             }
 
             List<PurchasedProductObject> purchases = new List<PurchasedProductObject>();
-            foreach (var item in request.Products)
-            {
 
-                var purchase = InvoiceService.UpdatePurchase(item);
-                purchases.Add(purchase);
+            if (request.Products?.Any() ?? false)
+            {
+                foreach (var item in request.Products)
+                {
+
+                    var purchase = InvoiceService.UpdatePurchase(item);
+                    purchases.Add(purchase);
+                }
             }
 
             invoice.Jobs = JsonConvert.SerializeObject(jobs);
@@ -155,11 +162,13 @@ namespace Fodraszat.Controllers
             totalprice = jobs.Sum(x => x.Price);
             totalprice += materials.Sum(x => x.Price);
             totalprice += purchases.Sum(x => x.Price);
+
             invoice.TotalPrice = totalprice;
 
             int totalPriceWithDiscount =  InvoiceService.GetJobTotalPriceWithDiscount(jobs);
             totalPriceWithDiscount += materials.Sum(x => x.Price);
             totalPriceWithDiscount += purchases.Sum(x => x.Price);
+
             invoice.PriceWithDiscount = totalPriceWithDiscount;
 
             db.Invoices.Add(invoice);

@@ -3,9 +3,9 @@ using Fodraszat.Services;
 
 namespace Fodraszat.Models.InvoiceEntities
 {
-    public class JobEntity
+    public class InvoiceJob
     {
-        public JobEntity(JobObject jobObject)
+        public InvoiceJob(JobObject jobObject)
         {
             if (jobObject != null)
             {

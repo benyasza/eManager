@@ -3,9 +3,9 @@ using Fodraszat.Services;
 
 namespace Fodraszat.Models.InvoiceEntities
 {
-    public class MaterialEntity
+    public class InvoiceMaterial
     {
-        public MaterialEntity(MaterialObject materialObject)
+        public InvoiceMaterial(MaterialObject materialObject)
         {
             if (materialObject != null)
             {

@@ -161,7 +161,7 @@ $('div.invoices #btnSubmit').on('click', function () {
         $data.jobId = $(tr).find('td:nth-child(2) > select')[0].value;
         $data.discount = $(tr).find('td:nth-child(3) > input')[0].value;
 
-        if ($data.hairDresser != '' && $data.job != '' && $data.discount != '') {
+        if ($data.hairDresserId != '' && $data.jobId != '' && $data.discount != '') {
             $jobs.push($data);
         }
     });
@@ -175,7 +175,7 @@ $('div.invoices #btnSubmit').on('click', function () {
         $data.id = $(tr).find('td:nth-child(1) > select')[0].value;
         $data.quantity = $(tr).find('td:nth-child(2) > input')[0].value;
 
-        if ($data.material != '' && $data.quantity != '') {
+        if ($data.id != '' && $data.quantity != '') {
             $materials.push($data);
         }
     });
@@ -189,10 +189,14 @@ $('div.invoices #btnSubmit').on('click', function () {
         $data.id = $(tr).find('td:nth-child(1) > select')[0].value;
         $data.quantity = $(tr).find('td:nth-child(2) > input')[0].value;
 
-        if ($data.product != '' && $data.quantity != '') {
+        if ($data.id != '' && $data.quantity != '') {
             $products.push($data);
         }
     });
+
+    if ($jobs == '') {
+        return;
+    }
 
     // create data object
     $formData = new Object();
