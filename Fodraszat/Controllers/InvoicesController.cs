@@ -52,23 +52,22 @@ namespace Fodraszat.Controllers
                 return HttpNotFound();
             }
 
-            //var jobs = JsonConvert.DeserializeObject<IEnumerable<JobObject>>(invoice.Jobs)
-            //    ?.Select(t => new JobEntity { Name = GetJobName(t.Id.ToString()), Price = t.Price, Discount = t.Discount });
-            //var materials = JsonConvert.DeserializeObject<IEnumerable<MaterialObject>>(invoice.Materials)
-            //    ?.Select(t => new MaterialEntity { Name = GetMaterialName(t.Id.ToString()), Price = t.Price, Quantity = t.Quantity });
-            //var products = JsonConvert.DeserializeObject<IEnumerable<PurchasedProductObject>>(invoice.PurchasedProducts)
-            //    ?.Select(t => new PurchasedProductEntity { Name = GetProductName(t.Id.ToString()), Price = t.Price, Quantity = t.Quantity });
+            var jobs = JsonConvert.DeserializeObject<IEnumerable<JobObject>>(invoice.Jobs)
+                ?.Select(t => new JobEntity(t));
+            var materials = JsonConvert.DeserializeObject<IEnumerable<MaterialObject>>(invoice.Materials)
+                ?.Select(t => new MaterialEntity(t));
+            var products = JsonConvert.DeserializeObject<IEnumerable<PurchasedProductObject>>(invoice.PurchasedProducts)
+                ?.Select(t => new PurchasedProductEntity(t) );
 
-            //InvoiceDetails details = new InvoiceDetails
-            //{
-            //    InvoiceNumber = invoiceNr.Value,
-            //    TotalCost = invoice.TotalPrice,
-            //    Jobs = jobs,
-            //    Materials = materials,
-            //    Products = products
-            //};
-
-            InvoiceDetails details = new InvoiceDetails();
+            InvoiceDetails details = new InvoiceDetails
+            {
+                InvoiceNumber = invoiceNr.Value,
+                TotalPrice = invoice.TotalPrice,
+                PriceWithDiscount = invoice.PriceWithDiscount,
+                Jobs = jobs,
+                Materials = materials,
+                Products = products
+            };
 
             return View(details);
         }

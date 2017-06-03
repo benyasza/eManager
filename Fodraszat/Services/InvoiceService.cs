@@ -78,12 +78,12 @@ namespace Fodraszat.Services
                 return 0;
             }
 
-            int total = jobObjects.Sum(t => GetJobPriceWihDiscount(t));
+            int total = jobObjects.Sum(t => GetJobPriceWithDiscount(t));
 
             return total;
         }
 
-        public static int GetJobPriceWihDiscount(JobObject jobObject)
+        public static int GetJobPriceWithDiscount(JobObject jobObject)
         {
             if (jobObject == null)
             {

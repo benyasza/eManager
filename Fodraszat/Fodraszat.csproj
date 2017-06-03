@@ -225,7 +225,6 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoiceDetails.cs" />
-    <Compile Include="Models\InvoiceDetailsRow.cs" />
     <Compile Include="Models\InvoiceListItem.cs" />
     <Compile Include="Models\RequestObjects\InvoiceRequest.cs" />
     <Compile Include="Models\Invoices.cs">

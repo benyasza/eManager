@@ -12,58 +12,108 @@
     <hr />
 
     <div class="display-price">
-        <label id="totalCost">@Model.TotalCost</label>
+        <label id="totalCost">@Model.TotalPrice</label>
     </div>
 
-    <table class="table table-50 col-3 right">
-        <thead>
-            <tr>
-                <th>Fodrász</th>
-                <th>Munka</th>
-                <th>Költség</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Jobs)
-            {
+    @if (Model.Jobs != null && Model.Jobs.Any())
+    {
+        <table class="table table-50 col-4 right">
+            <thead>
                 <tr>
-                    <td>
-                        @item.HairDresser
-                    </td>
-                    <td>
-                        @item.Job
-                    </td>
-                    <td>
-                        @item.Price
-                    </td>
+                    <th>Fodrász</th>
+                    <th>Munka</th>
+                    <th>Kedvezmény</th>
+                    <th>Ár</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-
-    <table class="table table-50 col-3 right">
-        <thead>
-            <tr>
-                <th>Anyag</th>
-                <th></th>
-                <th>Költség</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Materials)
-            {
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Jobs)
+                {
+                    <tr>
+                        <td>
+                            @item.HairDresser
+                        </td>
+                        <td>
+                            @item.Job
+                        </td>
+                        <td>
+                            @item.Discount
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+    @if (Model.Materials != null && Model.Materials.Any())
+    {
+        <table class="table table-50 col-4 right">
+            <thead>
                 <tr>
-                    <td>
-                        @item.Material
-                    </td>
-                    <td></td>
-                    <td>@item.Price</td>
+                    <th>Anyag</th>
+                    <th>Mennyiség (g)</th>
+                    <th></th>
+                    <th>Ár</th>
                 </tr>
-            }
-            
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Materials)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
 
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <table class="table table-50 col-4 right">
+            <thead>
+                <tr>
+                    <th>Vásárolt termék</th>
+                    <th>Mennyiség (db)</th>
+                    <th></th>
+                    <th>Ár</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td></td>
+                        <td>
+                            @item.Price
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    
     <table class="table table-50 right">
         <tr>
             <td>
@@ -72,46 +122,4 @@
         </tr>
     </table>
 
-    @*<dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HairDresser)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HairDresser)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.InvoiceNr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.InvoiceNr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Job)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Job)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Material)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Material)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-    </dl>*@
 </div>

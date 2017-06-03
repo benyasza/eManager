@@ -7,7 +7,9 @@ namespace Fodraszat.Models
     {
         public int InvoiceNumber { get; set; }
 
-        public int TotalCost { get; set; }
+        public int TotalPrice { get; set; }
+
+        public int PriceWithDiscount { get; set; }
 
         public IEnumerable<JobEntity> Jobs { get; set; }
 
