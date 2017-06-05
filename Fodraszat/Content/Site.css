@@ -35,6 +35,10 @@ div.display-price {
     text-align: right;
 }
 
+.dl-horizontal {
+    padding: 10px;
+}
+
 /* Statistics page */
 table.statistics {
     width: 600px;
@@ -52,9 +56,13 @@ div.filters div.filter {
 }
 
 /* Table */
-table.right, p.right {
+table.right, p.right, div.right {
     clear: both;
     float: right;
+}
+
+table.right, .dl-horizontal {
+    background-color: rgba(0,0,0,0.2);
 }
 
 table.table-50 {
@@ -83,4 +91,20 @@ table.table-75 {
 
 .table.right input[type=number] {
     width: 100px;
+}
+
+.font-24 {
+    font-size: 24px;
+}
+
+div.ui-datepicker {
+    background-color: white;
+}
+
+div.body-content {
+    color: beige;
+}
+
+div.body-content a {
+    color: indigo;
 }

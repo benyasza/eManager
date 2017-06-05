@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Fodraszat.Models.Jobs>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Munkák";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h3>Munkák</h3>
 
-
-<p>
+<p class="right">
     @Html.ActionLink("Új munkatípus felvitele", "Create")
 </p>
-<table class="table right table-75" >
+<table class="table right table-75 col-4" >
     <tr>
         <th>
             Név

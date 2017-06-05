@@ -1,14 +1,13 @@
 ﻿@model Fodraszat.Models.Materials
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Anyagok - részletek";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Részletek</h2>
+<h2>Anyag részletei</h2>
 
 <div>
-    <h4>Anyag</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -38,7 +37,7 @@
 
     </dl>
 </div>
-<p>
+<p class="right">
     @Html.ActionLink("Szerkesztés", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Vissza", "Index")
 </p>

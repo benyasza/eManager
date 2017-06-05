@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @*@Styles.Render("~/Content/css")*@
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/bootstrap.css")
@@ -34,7 +34,6 @@
                     <li>@Html.ActionLink("Statisztikák", "Index", "Statistics")</li>
                     <li>@Html.ActionLink("Leltár", "Index", "Inventory")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

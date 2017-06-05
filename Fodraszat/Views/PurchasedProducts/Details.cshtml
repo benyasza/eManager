@@ -1,14 +1,13 @@
 ﻿@model Fodraszat.Models.PurchasedProducts
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Vásárolt termékek - részletek";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Részletek</h2>
+<h2>Vásárolt termék részletei</h2>
 
 <div>
-    <h4>Vásárolt termékek</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,7 +28,7 @@
 
     </dl>
 </div>
-<p>
+<p class="right">
     @Html.ActionLink("Szerkesztés", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Vissza a listához", "Index")
 </p>

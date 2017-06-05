@@ -1,15 +1,14 @@
 ﻿@model Fodraszat.Models.Materials
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Anyagok - törlés";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Törlés</h2>
 
-<h3>Biztosan törölni akarod?</h3>
+<h3>Biztosan törölni szeretnéd?</h3>
 <div>
-    <h4>Anyag</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -41,7 +40,7 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-actions no-color right">
             <input type="submit" value="Törlés" class="btn btn-default" /> |
             @Html.ActionLink("Vissza", "Index")
         </div>

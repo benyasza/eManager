@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Fodraszat.Models.PurchasedProducts>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Vásárolt termékek";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Vásárolt termékek</h2>
 
-<p>
+<p class="right">
     @Html.ActionLink("Új termék felvétele", "Create")
 </p>
-<table class="table right table-50">
+<table class="table right table-50 col-3">
     <tr>
         <th>
            Név

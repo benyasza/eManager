@@ -1,18 +1,17 @@
 ﻿@model Fodraszat.Models.PurchasedProducts
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Vásárolt termékek - szerkesztés";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Szerkesztés</h2>
+<h2>Vásárolt termék szerkesztése</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Vásárolt termékek</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -41,6 +40,6 @@
     </div>
 }
 
-<div>
+<div class="right">
     @Html.ActionLink("Vissza a listához", "Index")
 </div>
